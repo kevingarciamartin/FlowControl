@@ -5,18 +5,14 @@ namespace FlowControl
     {
         static void Main(string[] args)
         {
-            string selectedAction;
             do
             {
                 ShowMainMenu();
-                selectedAction = Console.ReadLine()!;
+                string selectedAction = Console.ReadLine()!;
                 Console.WriteLine();
 
                 switch (selectedAction)
                 {
-                    case "0":
-                        Environment.Exit(0);
-                        break;
                     case "1":
                         PrintPrice();
                         break;
@@ -28,6 +24,9 @@ namespace FlowControl
                         break;
                     case "4":
                         PrintThirdWordOfSentence();
+                        break;
+                    case "0":
+                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Invalid input!");
@@ -42,18 +41,58 @@ namespace FlowControl
             Console.WriteLine("** MAIN MENU **");
             Console.WriteLine("Navigate by entering the corresponding number.");
             Console.WriteLine("-------------");
-            Console.WriteLine("0: Exit the application.");
             Console.WriteLine("1: Check price (Youth, Standard, Pensioner).");
             Console.WriteLine("2: Calculate the total price of your party.");
             Console.WriteLine("3: Enter a text and see it repeated 10 times!");
             Console.WriteLine("4: Write a sentence and output the third word.");
+            Console.WriteLine("0: Exit the application.");
+        }
+
+        private static string AskForString(string prompt)
+        {
+            bool success = false;
+            string answer;
+
+            do
+            {
+                Console.Write($"{prompt}: ");
+                answer = Console.ReadLine()!;
+
+                if (string.IsNullOrWhiteSpace(answer))
+                {
+                    Console.WriteLine($"You must enter a valid {prompt.ToLower()}.");
+                    Console.WriteLine();
+                }
+                else
+                    success = true;
+
+            } while (!success);
+
+            return answer;
+        }
+
+        private static uint AskForUInt(string prompt)
+        {
+            do
+            {
+                string input = AskForString(prompt);
+
+                if (!uint.TryParse(input, out uint result))
+                {
+                    Console.WriteLine($"You must enter a valid {prompt.ToLower()}.");
+                    Console.WriteLine();
+                }
+                else
+                    return result;
+
+            } while (true);            
         }
 
         private static void PrintPrice()
         {
             Console.WriteLine("Enter your age.");
 
-            var age = GetAge();
+            var age = AskForUInt("Age");
 
             if (age < 20) 
                 Console.WriteLine("Youth price: 80 kr");
@@ -63,60 +102,38 @@ namespace FlowControl
                 Console.WriteLine("Standard price: 120 kr");
         }
 
-        private static int GetAge()
-        {
-            var ageInput = Console.ReadLine();
-            Console.WriteLine();
-            int age = ConvertToInt(ageInput!);
-
-            return age;
-        }
-
-        private static int ConvertToInt(string input)
-        {
-            int output = Convert.ToInt32(input);
-
-            return output;
-        }
-
         private static void PrintPartyPrice()
         {
             Console.WriteLine("How many are in your party?");
 
-            var partySize = GetPartySize();
+            var partySize = AskForUInt("Party size");
             var partyAges = GetPartyAges(partySize);
-            int partyPrice = GetPartyPrice(partySize, partyAges);
+            var partyPrice = GetPartyPrice(partySize, partyAges);
 
             Console.WriteLine($"The cost for your party of {partySize} people is {partyPrice} kr.");
         }
 
-        private static int GetPartySize()
+        private static uint[] GetPartyAges(uint partySize)
         {
-            var sizeInput = Console.ReadLine();
-            Console.WriteLine();
-            int size = ConvertToInt(sizeInput!);
-
-            return size;
-        }
-
-        private static int[] GetPartyAges(int partySize)
-        {
-            int[] ages = new int[partySize];
+            uint[] ages = new uint[partySize];
             for (int i = 0; i < partySize; i++)
             {
+                if (i == 0)
+                    Console.WriteLine();
+
                 Console.WriteLine($"Enter the age of person number {i + 1}.");
-                var ageInput = Console.ReadLine();
+                var ageInput = AskForUInt("Age");
                 Console.WriteLine();
 
-                ages[i] = ConvertToInt(ageInput!);
+                ages[i] = ageInput;
             }
 
             return ages;
         }
 
-        private static int GetPartyPrice(int partySize, int[] partyAges)
+        private static uint GetPartyPrice(uint partySize, uint[] partyAges)
         {
-            int price = 0;
+            uint price = 0;
             for (int i = 0; i < partySize; i++)
             {
                 if (partyAges[i] < 20)
@@ -133,8 +150,8 @@ namespace FlowControl
         private static void PrintRepeatedText()
         {
             Console.WriteLine("Write your text.");
-            
-            var text = Console.ReadLine();
+
+            var text = AskForString("Text");
 
             for (int i = 0; i < 10; i++)
             {
@@ -150,8 +167,23 @@ namespace FlowControl
         {
             Console.WriteLine("Write a sentence with at least 3 words.");
 
-            var sentence = Console.ReadLine();
-            var words = sentence!.Split(" ");
+            bool success = false;
+            string[] words;
+
+            do
+            {
+                var sentence = AskForString("Sentence");
+                words = sentence!.Split(" ");
+
+                if (words.Length < 3)
+                {
+                    Console.WriteLine("The sentence must contain at least 3 words.");
+                    Console.WriteLine();
+                }
+                else
+                    success = true;
+
+            } while (!success);
 
             Console.WriteLine(words[2]);
         }
