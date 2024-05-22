@@ -15,6 +15,7 @@ namespace FlowControl
                 switch (selectedAction)
                 {
                     case "0":
+                        Environment.Exit(0);
                         break;
                     case "1":
                         PrintPrice();
@@ -32,7 +33,7 @@ namespace FlowControl
                         Console.WriteLine("Invalid input!");
                         break;
                 }
-            } while (selectedAction != "0");
+            } while (true);
         }
 
         private static void ShowMainMenu()
