@@ -186,12 +186,21 @@ namespace FlowControl
         {
             Console.WriteLine("Write a sentence with at least 3 words.");
 
+            var words = AskForSentence("Sentence");
+
+            var index = GetIndexForThirdWord(words);
+
+            Console.WriteLine(words[index]);
+        }
+
+        private static string[] AskForSentence(string prompt)
+        {
             bool success = false;
             string[] words;
 
             do
             {
-                var sentence = AskForString("Sentence");
+                var sentence = AskForString(prompt);
                 words = sentence!.Split(" ");
 
                 if (words.Length < 3)
@@ -204,7 +213,26 @@ namespace FlowControl
 
             } while (!success);
 
-            Console.WriteLine(words[2]);
+            return words;
+        }
+
+        private static int GetIndexForThirdWord(string[] words)
+        {
+            int counter = 0;
+            int index = 0;
+
+            for (index = 0; index < words.Length; index++)
+            {
+                if ((words[index] == ""))
+                    continue;
+                else
+                    counter++;
+
+                if (counter == 3)
+                    break;
+            }
+
+            return index;
         }
     }
 }
