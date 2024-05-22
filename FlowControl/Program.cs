@@ -27,12 +27,18 @@ namespace FlowControl
                         var partyAges = GetPartyAges(partySize);
                         PrintPartyPrice(partySize, partyAges);
                         break;
+                    case "3":
+                        Console.WriteLine("Write your text.");
+                        var text = Console.ReadLine();
+                        PrintRepeatedText(text!);
+                        break;
                     default:
                         Console.WriteLine("Invalid input!");
                         break;
                 }
             } while (selectedAction != "0");
         }
+
 
         private static void ShowMainMenu()
         {
@@ -43,6 +49,7 @@ namespace FlowControl
             Console.WriteLine("0: Exit the application.");
             Console.WriteLine("1: Check price (Youth, Standard, Pensioner).");
             Console.WriteLine("2: Calculate the total price of your party.");
+            Console.WriteLine("3: Enter a text and see it repeated 10 times!");
         }
 
         private static int GetAge()
@@ -115,6 +122,18 @@ namespace FlowControl
             }
 
             return price;
+        }
+
+        private static void PrintRepeatedText(string text)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (i == 9)
+                    Console.Write($"{i + 1}. {text}");
+                else
+                    Console.Write($"{i + 1}. {text}, ");
+            }
+            Console.WriteLine();
         }
     }
 }
