@@ -32,6 +32,7 @@ namespace FlowControl
                         Console.WriteLine("Invalid input!");
                         break;
                 }
+
             } while (true);
         }
 
@@ -40,8 +41,8 @@ namespace FlowControl
             Console.WriteLine();
             Console.WriteLine("** MAIN MENU **");
             Console.WriteLine("Navigate by entering the corresponding number.");
-            Console.WriteLine("-------------");
-            Console.WriteLine("1: Check price (Youth, Standard, Pensioner).");
+            Console.WriteLine("----------------------------------------------");
+            Console.WriteLine("1: Check price (Standard, Youth, Pensioner, Free).");
             Console.WriteLine("2: Calculate the total price of your party.");
             Console.WriteLine("3: Enter a text and see it repeated 10 times!");
             Console.WriteLine("4: Write a sentence and output the third word.");
@@ -88,23 +89,38 @@ namespace FlowControl
             } while (true);            
         }
 
+        private static string CheckAgeCategory(uint age)
+        {
+            if (age < 5 || age > 100)
+                return "free";
+            else if (age >= 5 && age < 20)
+                return "youth";
+            else if (age > 64 && age <= 100)
+                return "pensioner";
+            else
+                return "standard";
+        }
+
         private static void PrintPrice()
         {
             Console.WriteLine("Enter your age.");
 
             var age = AskForUInt("Age");
+            var category = CheckAgeCategory(age);
 
-            if (age < 20) 
-                Console.WriteLine("Youth price: 80 kr");
-            else if (age > 64) 
-                Console.WriteLine("Pensioner price: 90 kr");
-            else 
-                Console.WriteLine("Standard price: 120 kr");
+            if (category == "free")
+                Console.WriteLine("Free entry.");
+            else if (category == "youth")
+                Console.WriteLine("Youth price: 80 kr.");
+            else if (category == "pensioner")
+                Console.WriteLine("Pensioner price: 90 kr.");
+            else
+                Console.WriteLine("Standard price: 120 kr.");
         }
 
         private static void PrintPartyPrice()
         {
-            Console.WriteLine("How many are in your party?");
+            Console.WriteLine("How many are there in your party?");
 
             var partySize = AskForUInt("Party size");
             var partyAges = GetPartyAges(partySize);
@@ -136,9 +152,12 @@ namespace FlowControl
             uint price = 0;
             for (int i = 0; i < partySize; i++)
             {
-                if (partyAges[i] < 20)
+                var category = CheckAgeCategory(partyAges[i]);
+                if (category == "free")
+                    price += 0;
+                else if (category == "youth")
                     price += 80;
-                else if (partyAges[i] > 64)
+                else if (category == "pensioner")
                     price += 90;
                 else
                     price += 120;
