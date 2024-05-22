@@ -32,13 +32,15 @@ namespace FlowControl
                         var text = Console.ReadLine();
                         PrintRepeatedText(text!);
                         break;
+                    case "4":
+                        PrintThirdWord();
+                        break;
                     default:
                         Console.WriteLine("Invalid input!");
                         break;
                 }
             } while (selectedAction != "0");
         }
-
 
         private static void ShowMainMenu()
         {
@@ -50,6 +52,7 @@ namespace FlowControl
             Console.WriteLine("1: Check price (Youth, Standard, Pensioner).");
             Console.WriteLine("2: Calculate the total price of your party.");
             Console.WriteLine("3: Enter a text and see it repeated 10 times!");
+            Console.WriteLine("4: Write a sentence and output the third word.");
         }
 
         private static int GetAge()
@@ -134,6 +137,13 @@ namespace FlowControl
                     Console.Write($"{i + 1}. {text}, ");
             }
             Console.WriteLine();
+        }
+        private static void PrintThirdWord()
+        {
+            Console.WriteLine("Write a sentence with at least 3 words.");
+            var sentence = Console.ReadLine();
+            var words = sentence!.Split(" ");
+            Console.WriteLine(words[2]);
         }
     }
 }
