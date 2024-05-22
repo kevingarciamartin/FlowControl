@@ -26,7 +26,7 @@ namespace FlowControl
                         PrintRepeatedText();
                         break;
                     case "4":
-                        PrintThirdWord();
+                        PrintThirdWordOfSentence();
                         break;
                     default:
                         Console.WriteLine("Invalid input!");
@@ -145,7 +145,7 @@ namespace FlowControl
 
             Console.WriteLine();
         }
-        private static void PrintThirdWord()
+        private static void PrintThirdWordOfSentence()
         {
             Console.WriteLine("Write a sentence with at least 3 words.");
 
