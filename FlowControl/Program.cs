@@ -17,20 +17,13 @@ namespace FlowControl
                     case "0":
                         break;
                     case "1":
-                        Console.WriteLine("Enter your age.");
-                        var age = GetAge();
-                        PrintPrice(age);
+                        PrintPrice();
                         break;
                     case "2":
-                        Console.WriteLine("How many are in your party?");
-                        var partySize = GetPartySize();
-                        var partyAges = GetPartyAges(partySize);
-                        PrintPartyPrice(partySize, partyAges);
+                        PrintPartyPrice();
                         break;
                     case "3":
-                        Console.WriteLine("Write your text.");
-                        var text = Console.ReadLine();
-                        PrintRepeatedText(text!);
+                        PrintRepeatedText();
                         break;
                     case "4":
                         PrintThirdWord();
@@ -55,12 +48,26 @@ namespace FlowControl
             Console.WriteLine("4: Write a sentence and output the third word.");
         }
 
+        private static void PrintPrice()
+        {
+            Console.WriteLine("Enter your age.");
+
+            var age = GetAge();
+
+            if (age < 20) 
+                Console.WriteLine("Youth price: 80 kr");
+            else if (age > 64) 
+                Console.WriteLine("Pensioner price: 90 kr");
+            else 
+                Console.WriteLine("Standard price: 120 kr");
+        }
+
         private static int GetAge()
         {
             var ageInput = Console.ReadLine();
             Console.WriteLine();
             int age = ConvertToInt(ageInput!);
-            
+
             return age;
         }
 
@@ -71,14 +78,15 @@ namespace FlowControl
             return output;
         }
 
-        private static void PrintPrice(int age)
+        private static void PrintPartyPrice()
         {
-            if (age < 20) 
-                Console.WriteLine("Youth price: 80 kr");
-            else if (age > 64) 
-                Console.WriteLine("Pensioner price: 90 kr");
-            else 
-                Console.WriteLine("Standard price: 120 kr");
+            Console.WriteLine("How many are in your party?");
+
+            var partySize = GetPartySize();
+            var partyAges = GetPartyAges(partySize);
+            int partyPrice = GetPartyPrice(partySize, partyAges);
+
+            Console.WriteLine($"The cost for your party of {partySize} people is {partyPrice} kr.");
         }
 
         private static int GetPartySize()
@@ -105,12 +113,6 @@ namespace FlowControl
             return ages;
         }
 
-        private static void PrintPartyPrice(int partySize, int[] partyAges)
-        {
-            int partyPrice = GetPartyPrice(partySize, partyAges);
-            Console.WriteLine($"The cost for your party of {partySize} people is {partyPrice} kr.");
-        }
-
         private static int GetPartyPrice(int partySize, int[] partyAges)
         {
             int price = 0;
@@ -127,8 +129,12 @@ namespace FlowControl
             return price;
         }
 
-        private static void PrintRepeatedText(string text)
+        private static void PrintRepeatedText()
         {
+            Console.WriteLine("Write your text.");
+            
+            var text = Console.ReadLine();
+
             for (int i = 0; i < 10; i++)
             {
                 if (i == 9)
@@ -136,13 +142,16 @@ namespace FlowControl
                 else
                     Console.Write($"{i + 1}. {text}, ");
             }
+
             Console.WriteLine();
         }
         private static void PrintThirdWord()
         {
             Console.WriteLine("Write a sentence with at least 3 words.");
+
             var sentence = Console.ReadLine();
             var words = sentence!.Split(" ");
+
             Console.WriteLine(words[2]);
         }
     }
