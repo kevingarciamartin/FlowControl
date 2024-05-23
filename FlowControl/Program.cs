@@ -85,10 +85,31 @@ namespace FlowControl
             Console.WriteLine("How many are there in your party?");
 
             var partySize = Util.AskForUInt("Party size");
-            var partyAges = GetPartyAges(partySize);
-            var partyPrice = GetPartyPrice(partySize, partyAges);
+            var partyPrice = GetPartyPrice(partySize);
 
             Console.WriteLine($"The cost for your party of {partySize} people is {partyPrice} kr.");
+        }
+
+        private static uint GetPartyPrice(uint partySize)
+        {
+            var partyAges = GetPartyAges(partySize);
+            uint price = 0;
+
+            for (int i = 0; i < partySize; i++)
+            {
+                var category = CheckAgeCategory(partyAges[i]);
+
+                if (category == "free")
+                    price += 0;
+                else if (category == "youth")
+                    price += 80;
+                else if (category == "pensioner")
+                    price += 90;
+                else
+                    price += 120;
+            }
+
+            return price;
         }
 
         private static uint[] GetPartyAges(uint partySize)
@@ -110,27 +131,6 @@ namespace FlowControl
             }
 
             return ages;
-        }
-
-        private static uint GetPartyPrice(uint partySize, uint[] partyAges)
-        {
-            uint price = 0;
-
-            for (int i = 0; i < partySize; i++)
-            {
-                var category = CheckAgeCategory(partyAges[i]);
-
-                if (category == "free")
-                    price += 0;
-                else if (category == "youth")
-                    price += 80;
-                else if (category == "pensioner")
-                    price += 90;
-                else
-                    price += 120;
-            }
-
-            return price;
         }
 
         private static void PrintRepeatedText()
