@@ -201,7 +201,7 @@ namespace FlowControl
             do
             {
                 var sentence = AskForString(prompt);
-                words = sentence!.Split(" ");
+                words = sentence!.Split(' ', '\t');
 
                 if (words.Length < 3)
                 {
