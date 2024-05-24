@@ -6,7 +6,7 @@ namespace FlowControl
 {
     internal class Program
     {
-        private static ConsoleUI _ui = new();
+        private static IUI _ui = new ConsoleUI();
 
         static void Main(string[] args)
         {
