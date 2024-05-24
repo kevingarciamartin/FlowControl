@@ -107,9 +107,9 @@ namespace FlowControl
             var partyAges = GetPartyAges(partySize);
             uint price = 0;
 
-            for (int i = 0; i < partySize; i++)
+            foreach (var age in partyAges)
             {
-                var category = CheckAgeCategory(partyAges[i]);
+                var category = CheckAgeCategory(age);
 
                 if (category == "free")
                     price += 0;
