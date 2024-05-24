@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace FlowControl.UI
 {
-    public interface IUI
-    {
-        string GetInput();
-        void Print(string message);
-        void PrintLine(string message = "");
-    }
-
     public class ConsoleUI : IUI
     {
         public void PrintLine(string message = "")
