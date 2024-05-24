@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FlowControl.UI\FlowControl.UI.csproj" />
-  </ItemGroup>
-
 </Project>

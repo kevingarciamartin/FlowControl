@@ -1,21 +1,23 @@
-﻿namespace FlowControl.Helpers
+﻿using FlowControl.UI;
+
+namespace FlowControl.Helpers
 {
     public static class Util
     {
-        public static string AskForString(string prompt)
+        public static string AskForString(string prompt, ConsoleUI ui)
         {
             bool success = false;
             string answer;
 
             do
             {
-                Console.Write($"{prompt}: ");
-                answer = Console.ReadLine()!;
+                ui.Print($"{prompt}: ");
+                answer = ui.GetInput();
 
                 if (string.IsNullOrWhiteSpace(answer))
                 {
-                    Console.WriteLine($"You must enter a valid {prompt.ToLower()}.");
-                    Console.WriteLine();
+                    ui.PrintLine($"You must enter a valid {prompt.ToLower()}.");
+                    ui.PrintLine();
                 }
                 else
                     success = true;
@@ -25,16 +27,16 @@
             return answer;
         }
 
-        public static uint AskForUInt(string prompt)
+        public static uint AskForUInt(string prompt, ConsoleUI ui)
         {
             do
             {
-                string input = AskForString(prompt);
+                string input = AskForString(prompt, ui);
 
                 if (!uint.TryParse(input, out uint result))
                 {
-                    Console.WriteLine($"You must enter a valid {prompt.ToLower()}.");
-                    Console.WriteLine();
+                    ui.PrintLine($"You must enter a valid {prompt.ToLower()}.");
+                    ui.PrintLine();
                 }
                 else
                     return result;
